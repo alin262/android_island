@@ -12,7 +12,22 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(child: Text("Architecture setup complete"),),
+      body: Stack(
+        children: [
+          const Center(child: Text("app content"),),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(7.0),
+              child: Container(
+                width: 120,height: 35,decoration: BoxDecoration(
+                  color: Colors.black,borderRadius: BorderRadius.circular(20)
+                ),
+              ),
+            ),
+          )
+        ],
+      )
     );
   }
 }
