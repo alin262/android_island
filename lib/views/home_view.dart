@@ -12,7 +12,6 @@ class _HomeViewState extends State<HomeView> {
   void isToggled() {
     setState(() {
       isExpanded = !isExpanded;
-      print(isExpanded);
     });
   }
 
@@ -29,7 +28,21 @@ class _HomeViewState extends State<HomeView> {
               padding: const EdgeInsets.all(26.0),
               child: GestureDetector(
                 onTap: isToggled,
-                child: AnimatedContainer(padding: EdgeInsets.all(1),alignment: Alignment.center,
+                onVerticalDragUpdate: (details) {
+                  double sensitivity = .1;
+                  if (details.delta.dy > sensitivity) {
+                    setState(() {
+                      isExpanded = !isExpanded;
+                    });
+                  }else if(details.delta.dy < -sensitivity){
+                    setState(() {
+                      isExpanded=!isExpanded;
+                    });
+                  }
+                },
+                child: AnimatedContainer(
+                  padding: EdgeInsets.all(1),
+                  alignment: Alignment.center,
                   duration: const Duration(seconds: 1),
                   curve: Curves.easeInOutBack,
                   width: isExpanded ? 300 : 127,
@@ -39,7 +52,6 @@ class _HomeViewState extends State<HomeView> {
                     borderRadius: BorderRadius.circular(isExpanded ? 30 : 20),
                   ),
                   child: SingleChildScrollView(
-                    
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -47,28 +59,27 @@ class _HomeViewState extends State<HomeView> {
                         AnimatedOpacity(
                           duration: Duration(milliseconds: 200),
                           opacity: isExpanded ? 1.0 : 0,
-                          
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "calling...",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  ),
+
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "calling...",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
                                 ),
-                                Text(
-                                  "Edison",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
+                              ),
+                              Text(
+                                "Edison",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
                                 ),
-                              ],
-                            ),
-                          
+                              ),
+                            ],
+                          ),
                         ),
                         AnimatedOpacity(
                           duration: Duration(milliseconds: 200),
