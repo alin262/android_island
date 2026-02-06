@@ -8,10 +8,10 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  bool isExpanded= false;
-  void isToggled(){
+  bool isExpanded = true;
+  void isToggled() {
     setState(() {
-      isExpanded=!isExpanded;
+      isExpanded = !isExpanded;
       print(isExpanded);
     });
   }
@@ -20,28 +20,70 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueGrey,
-      body: 
-          Stack(
-            children: [
-              const Center(child: Text("app content"),),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(7.0),
-                  child: GestureDetector(
-                    onTap: isToggled,
-                    child: AnimatedContainer(
-                      duration: const Duration(seconds: 1),curve: Curves.easeInOutBack,
-                      width:isExpanded? 120:300,height:isExpanded? 35:150,decoration: BoxDecoration(
-                        color: Colors.black,borderRadius: BorderRadius.circular(isExpanded ? 30 : 20)
-                      ),
+      body: Stack(
+        children: [
+          const Center(child: Text("app content")),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(26.0),
+              child: GestureDetector(
+                onTap: isToggled,
+                child: AnimatedContainer(padding: EdgeInsets.all(1),alignment: Alignment.center,
+                  duration: const Duration(seconds: 1),
+                  curve: Curves.easeInOutBack,
+                  width: isExpanded ? 300 : 127,
+                  height: isExpanded ? 150 : 50,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(isExpanded ? 30 : 20),
+                  ),
+                  child: SingleChildScrollView(
+                    
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Icon(Icons.face, color: Colors.white),
+                        AnimatedOpacity(
+                          duration: Duration(milliseconds: 200),
+                          opacity: isExpanded ? 1.0 : 0,
+                          
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "calling...",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  "Edison",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          
+                        ),
+                        AnimatedOpacity(
+                          duration: Duration(milliseconds: 200),
+                          opacity: isExpanded ? 1.0 : 0,
+                          child: Icon(Icons.call_missed, color: Colors.red),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              )
-            ],
+              ),
+            ),
           ),
-        
+        ],
+      ),
     );
   }
 }
