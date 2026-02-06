@@ -29,14 +29,14 @@ class _HomeViewState extends State<HomeView> {
               child: GestureDetector(
                 onTap: isToggled,
                 onVerticalDragUpdate: (details) {
-                  double sensitivity = .1;
+                  int sensitivity = 3;
                   if (details.delta.dy > sensitivity) {
                     setState(() {
                       isExpanded = !isExpanded;
                     });
-                  }else if(details.delta.dy < -sensitivity){
+                  } else if (details.delta.dy < -sensitivity) {
                     setState(() {
-                      isExpanded=!isExpanded;
+                      isExpanded = !isExpanded;
                     });
                   }
                 },
@@ -45,49 +45,49 @@ class _HomeViewState extends State<HomeView> {
                   alignment: Alignment.center,
                   duration: const Duration(seconds: 1),
                   curve: Curves.easeInOutBack,
-                  width: isExpanded ? 300 : 127,
+                  width: isExpanded ? 300 : 150,
                   height: isExpanded ? 150 : 50,
                   decoration: BoxDecoration(
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(isExpanded ? 30 : 20),
                   ),
-                  child: SingleChildScrollView(
-                    child: Row(
+                  child: AnimatedCrossFade(
+                    firstChild: const Center(
+                      child: Text(
+                        "Edison",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    secondChild: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(Icons.face, color: Colors.white),
-                        AnimatedOpacity(
-                          duration: Duration(milliseconds: 200),
-                          opacity: isExpanded ? 1.0 : 0,
-
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "calling...",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
+                        Column(mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Calling..",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
                               ),
-                              Text(
-                                "Edison",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
+                            ),
+                            Text(
+                              "Edison",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        AnimatedOpacity(
-                          duration: Duration(milliseconds: 200),
-                          opacity: isExpanded ? 1.0 : 0,
-                          child: Icon(Icons.call_missed, color: Colors.red),
-                        ),
+                        Icon(Icons.missed_video_call, color: Colors.red),
                       ],
                     ),
+                    crossFadeState: isExpanded
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                    duration: const Duration(milliseconds: 100),
                   ),
                 ),
               ),
