@@ -36,6 +36,9 @@ class _HomeViewState extends State<HomeView> {
       currentMode = mode;
       isExpanded = false;
       isShowIsland = true;
+      if (currentMode == IslandState.none) {
+        isShowIsland = false;
+      }
     });
   }
 
@@ -46,20 +49,37 @@ class _HomeViewState extends State<HomeView> {
       body: Stack(
         children: [
           Center(
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    showNotification(IslandState.music);
-                  },
-                  child: Text("music moder"),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    showNotification(IslandState.calling);
-                  },
-                  child: Text("normal mode"),
+                 ElevatedButton(
+                      onPressed: () {
+                        showNotification(IslandState.charging);
+                      },
+                      child: Text("Charging"),
+                    ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        showNotification(IslandState.music);
+                      },
+                      child: Text("music moder"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        showNotification(IslandState.calling);
+                      },
+                      child: Text("normal mode"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        showNotification(IslandState.none);
+                      },
+                      child: Text("up"),
+                    ),
+                  ],
                 ),
               ],
             ),
