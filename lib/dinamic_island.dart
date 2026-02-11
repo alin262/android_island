@@ -76,7 +76,8 @@ class DinamicIsland extends StatelessWidget {
       return Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text("The Weeknd",style: TextStyle(color: Colors.white),),
+          children: [
+            Text("The Weeknd", style: TextStyle(color: Colors.white)),
             Icon(Icons.music_note, color: Colors.white),
             Text(
               "Starboy",

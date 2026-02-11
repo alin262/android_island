@@ -31,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  void showNotification(IslandState mode) {
+  void  showNotification(IslandState mode) async {
     setState(() {
       currentMode = mode;
       isExpanded = false;
@@ -40,6 +40,16 @@ class _HomeViewState extends State<HomeView> {
         isShowIsland = false;
       }
     });
+
+    if(currentMode==IslandState.charging){
+      await Future.delayed(const Duration(seconds: 2));
+      if(mounted && currentMode ==IslandState.charging){
+        setState(() {
+          isShowIsland=false;
+          isExpanded=false;
+        });
+      }
+    }
   }
 
   @override
