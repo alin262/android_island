@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:android_island/dinamic_island.dart';
 import 'package:flutter/material.dart';
+import 'package:battery_plus/battery_plus.dart';
 
 // enum IslandState { none, calling, music }
 
@@ -13,7 +16,36 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   bool isExpanded = false;
   bool isShowIsland = false;
+
   IslandState currentMode = IslandState.none;
+  var battery = Battery();
+  late StreamSubscription<BatteryState> _batterySubscription;
+  int batteryPercentage = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _listenToBattery();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+    _batterySubscription.cancel();
+    super.dispose();
+  }
+
+  void _listenToBattery() {
+    _batterySubscription = battery.onBatteryStateChanged.listen((
+      BatteryState state,
+    ) {
+      if (state == BatteryState.charging) {
+        showNotification(IslandState.charging);
+      }
+    });
+  }
 
   void toggleSize() {
     setState(() {
@@ -31,7 +63,7 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  void  showNotification(IslandState mode) async {
+  void showNotification(IslandState mode) async {
     setState(() {
       currentMode = mode;
       isExpanded = false;
@@ -41,12 +73,16 @@ class _HomeViewState extends State<HomeView> {
       }
     });
 
-    if(currentMode==IslandState.charging){
+    if (currentMode == IslandState.charging) {
+      final level = await battery.batteryLevel;
+      setState(() {
+        batteryPercentage = level;
+      });
       await Future.delayed(const Duration(seconds: 2));
-      if(mounted && currentMode ==IslandState.charging){
+      if (mounted && currentMode == IslandState.charging) {
         setState(() {
-          isShowIsland=false;
-          isExpanded=false;
+          isShowIsland = false;
+          isExpanded = false;
         });
       }
     }
@@ -62,12 +98,12 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 ElevatedButton(
-                      onPressed: () {
-                        showNotification(IslandState.charging);
-                      },
-                      child: Text("Charging"),
-                    ),
+                ElevatedButton(
+                  onPressed: () {
+                    showNotification(IslandState.charging);
+                  },
+                  child: Text("Charging"),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -100,6 +136,7 @@ class _HomeViewState extends State<HomeView> {
             isShowIsland: isShowIsland,
             onTap: toggleSize,
             onDrag: handleDrag,
+            batteryP: batteryPercentage,
           ),
         ],
       ),

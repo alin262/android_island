@@ -8,6 +8,7 @@ class DinamicIsland extends StatelessWidget {
   final IslandState currentMode;
   final VoidCallback onTap;
   final Function(DragUpdateDetails) onDrag;
+  final int batteryP;
 
   const DinamicIsland({
     super.key,
@@ -16,6 +17,7 @@ class DinamicIsland extends StatelessWidget {
     required this.isShowIsland,
     required this.onTap,
     required this.onDrag,
+    required this.batteryP,
   });
   double getWidth() {
     if (isExpanded) return 300;
@@ -97,7 +99,7 @@ class DinamicIsland extends StatelessWidget {
           children: [
             Icon(Icons.battery_charging_full_rounded, color: Colors.white),
             Text(
-              "Charging 75%",
+              "Charging $batteryP ",
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -168,7 +170,7 @@ class DinamicIsland extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              "75% Charged",
+              "$batteryP Charged",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
